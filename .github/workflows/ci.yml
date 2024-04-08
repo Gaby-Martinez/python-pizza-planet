@@ -1,6 +1,8 @@
 name: Backend CI
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -9,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.8.18"
+          python-version: "3.8"
 
       - name: Install dependencies
         run: |
@@ -24,18 +26,15 @@ jobs:
 
       - name: Initialize Database
         run: |
-          source venv/bin/activate
-          python manage.py db init
+          source venv/bin/activate && python manage.py db init
 
       - name: Create Migrations
         run: |
-          source venv/bin/activate
-          python manage.py db migrate
+          source venv/bin/activate && python manage.py db migrate
 
       - name: Apply Migrations
         run: |
-          source venv/bin/activate
-          python manage.py db upgrade
+          source venv/bin/activate && python manage.py db upgrade
 
       - name: Run Tests
         run: |
