@@ -1,3 +1,4 @@
+from typing import Any, Dict, Tuple
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..common.utils import check_required_keys
@@ -25,19 +26,20 @@ class OrderController(BaseController):
     def create(cls, order: dict):
         current_order = order.copy()
         if not check_required_keys(cls.__required_info, current_order):
-            return "Invalid order payload", None
+            return None, "Invalid order payload"
 
         size_id = current_order.get("size_id")
         size = SizeManager.get_by_id(size_id)
 
         if not size:
-            return "Invalid size for Order", None
+            return None, "Invalid size for Order"
 
         ingredient_ids = current_order.pop("ingredients", [])
         try:
             ingredients = IngredientManager.get_by_id_list(ingredient_ids)
             price = cls.calculate_order_price(size.get("price"), ingredients)
             order_with_price = {**current_order, "total_price": price}
-            return cls.manager.create(order_with_price, ingredients), None
+            created_order = cls.manager.create(order_with_price, ingredients)
+            return created_order, None
         except (SQLAlchemyError, RuntimeError) as ex:
             return None, str(ex)
