@@ -5,7 +5,6 @@ from app.test.utils.functions import get_random_string, get_random_price
 
 def test_create_order_service(create_order):
     order = create_order.json
-    print(order)
     pytest.assume(create_order.status.startswith("200"))
     pytest.assume(order["_id"])
     pytest.assume(order["client_address"])
@@ -20,7 +19,6 @@ def test_create_order_service(create_order):
 
 def test_get_order_by_id_service(client, create_order, order_uri):
     current_order = create_order.json
-    print(current_order)
     response = client.get(f'{order_uri}id/{current_order["_id"]}')
     pytest.assume(response.status.startswith("200"))
     returned_order = response.json

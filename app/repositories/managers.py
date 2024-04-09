@@ -92,7 +92,6 @@ class OrderManager(BaseManager):
             cls.session.add(new_order)
             cls.session.flush()
 
-            # Add ingredients to the order
             for ingredient in ingredients:
                 cls.session.add(
                     OrderIngredient(
@@ -102,7 +101,6 @@ class OrderManager(BaseManager):
                     )
                 )
 
-            # Add beverages to the order
             for beverage in beverages:
                 cls.session.add(
                     OrderBeverage(
