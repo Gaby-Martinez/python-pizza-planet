@@ -1,6 +1,6 @@
 from typing import Any, List, Optional, Sequence
 
-from sqlalchemy.sql import text, column
+from sqlalchemy.sql import column, text
 
 from .models import (
     Beverage,
