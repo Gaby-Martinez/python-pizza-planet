@@ -2,6 +2,7 @@ import os
 import tempfile
 
 import pytest
+
 from app import create_app, register_blueprints
 from app.plugins import db, ma
 
@@ -9,15 +10,16 @@ from app.plugins import db, ma
 from app.repositories.models import (
     Ingredient,
     Order,
-    OrderIngredient,
     OrderBeverage,
+    OrderIngredient,
     Size,
 )
 
+from .fixtures.beverage import *
 from .fixtures.ingredient import *
 from .fixtures.order import *
+from .fixtures.report import *
 from .fixtures.size import *
-from .fixtures.beverage import *
 
 
 @pytest.fixture

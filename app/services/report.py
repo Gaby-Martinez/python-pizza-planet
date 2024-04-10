@@ -1,66 +1,41 @@
-from flask import Blueprint, jsonify
-from sqlalchemy.sql import extract, func
+from flask import Blueprint, jsonify, request
 
 from app.common.http_methods import GET
-from app.plugins import db
-from app.repositories.models import Ingredient, Order, OrderIngredient
-from app.repositories.serializers import OrderSerializer
+from app.controllers.report import ReportController
+from app.controllers.utils.report_strategy import (
+    MonthWithMostRevenueStrategy,
+    MostRequestedIngredientStrategy,
+    TopCustomersStrategy,
+)
 
 report = Blueprint("report", __name__)
 
 
 @report.route("/", methods=GET)
 def generate_report():
-    most_requested_ingredient = (
-        db.session.query(
-            Ingredient.name, func.count(OrderIngredient.ingredient_id).label("total")
-        )
-        .join(OrderIngredient)
-        .group_by(Ingredient.name)
-        .order_by(func.count(OrderIngredient.ingredient_id).desc())
-        .first()
-    )
-    most_requested_ingredient = {
-        "name": most_requested_ingredient[0],
-        "total": most_requested_ingredient[1],
+    """Default: all reports. Query param 'type: 'most_requested_ingredient', 'month_with_most_revenue', 'top_customers'."""
+
+    report_type = request.args.get("type")
+
+    strategies = {
+        "most_requested_ingredient": MostRequestedIngredientStrategy(),
+        "month_with_most_revenue": MonthWithMostRevenueStrategy(),
+        "top_customers": TopCustomersStrategy(),
     }
 
-    month_with_highest_revenue = (
-        db.session.query(
-            extract("month", Order.date).label("month"),
-            func.sum(Order.total_price).label("revenue"),
-        )
-        .group_by("month")
-        .order_by(func.sum(Order.total_price).desc())
-        .first()
-    )
-    month_with_highest_revenue = {
-        "month": month_with_highest_revenue[0],
-        "revenue": float(month_with_highest_revenue[1]),
-    }
+    report_controller = ReportController()
 
-    top_customers = (
-        db.session.query(
-            Order.client_name, func.sum(Order.total_price).label("total_spent")
-        )
-        .group_by(Order.client_name)
-        .order_by(func.sum(Order.total_price).desc())
-        .limit(3)
-        .all()
-    )
-
-    top_customers = [
-        {
-            "client_name": customer.client_name,
-            "total_spent": float(customer.total_spent),
-        }
-        for customer in top_customers
-    ]
-
-    report_data = {
-        "most_requested_ingredient": most_requested_ingredient,
-        "month_with_highest_revenue": month_with_highest_revenue,
-        "top_customers": top_customers,
-    }
+    if report_type:
+        strategy = strategies.get(report_type)
+        if not strategy:
+            return jsonify({"error": "Invalid report type specified"}), 400
+        report_controller.set_strategy(strategy)
+        report_data = {report_type: report_controller.generate_report()}
+    else:
+        reports = {}
+        for report_name, strategy in strategies.items():
+            report_controller.set_strategy(strategy)
+            reports[report_name] = report_controller.generate_report()
+        report_data = reports
 
     return jsonify(report_data)
