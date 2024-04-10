@@ -1,12 +1,3 @@
-from flask import jsonify
-
-from .utils.report_strategy import (
-    MonthWithMostRevenueStrategy,
-    MostRequestedIngredientStrategy,
-    TopCustomersStrategy,
-)
-
-
 class ReportController:
     def __init__(self):
         self._strategy = None

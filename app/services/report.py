@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 
 from app.common.http_methods import GET
 from app.controllers.report import ReportController
-from app.controllers.utils.report_strategy import (
+from app.repositories.reports.report_strategy import (
     MonthWithMostRevenueStrategy,
     MostRequestedIngredientStrategy,
     TopCustomersStrategy,

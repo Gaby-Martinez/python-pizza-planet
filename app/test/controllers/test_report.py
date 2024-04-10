@@ -2,16 +2,18 @@ import pytest
 from unittest.mock import MagicMock
 
 from app.controllers.report import ReportController
-from app.controllers.utils.report_strategy import (
+from app.repositories.reports.report_strategy import (
     MonthWithMostRevenueStrategy,
     MostRequestedIngredientStrategy,
     TopCustomersStrategy,
 )
 
 
-def test_generate_report_with_most_requested_ingredient_strategy():
+def test_generate_report_with_most_requested_ingredient_strategy(
+    most_requested_ingredient_report,
+):
     mock_strategy = MagicMock(spec=MostRequestedIngredientStrategy)
-    expected_report = {"name": "Tomato", "total": 150}
+    expected_report = most_requested_ingredient_report
     mock_strategy.generate.return_value = expected_report
 
     controller = ReportController()
@@ -21,9 +23,11 @@ def test_generate_report_with_most_requested_ingredient_strategy():
     mock_strategy.generate.assert_called_once()
 
 
-def test_generate_report_with_month_with_most_revenue_strategy():
+def test_generate_report_with_month_with_most_revenue_strategy(
+    month_with_most_revenue_report,
+):
     mock_strategy = MagicMock(spec=MonthWithMostRevenueStrategy)
-    expected_report = {"month": "March 2024", "revenue": 20000}
+    expected_report = month_with_most_revenue_report
     mock_strategy.generate.return_value = expected_report
 
     controller = ReportController()
@@ -33,13 +37,9 @@ def test_generate_report_with_month_with_most_revenue_strategy():
     mock_strategy.generate.assert_called_once()
 
 
-def test_generate_report_with_top_customers_strategy():
+def test_generate_report_with_top_customers_strategy(top_customers_report):
     mock_strategy = MagicMock(spec=TopCustomersStrategy)
-    expected_report = [
-        {"client_name": "John Doe", "total_spent": 300.0},
-        {"client_name": "Jane Doe", "total_spent": 200.0},
-        {"client_name": "Bob Smith", "total_spent": 150.0},
-    ]
+    expected_report = top_customers_report
     mock_strategy.generate.return_value = expected_report
 
     controller = ReportController()
