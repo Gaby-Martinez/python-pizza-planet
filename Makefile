@@ -27,3 +27,9 @@ test:
 test-coverage:
 	. venv/bin/activate && \
 	pytest --cov=app ./app/test
+
+seed-db:
+	@python -m app.common.scripts.seed_database       
+
+clean-db:
+	@python -m app.common.scripts.clean_database
