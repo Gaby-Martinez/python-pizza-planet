@@ -1,8 +1,3 @@
-import pytest
-
-from app.test.utils.functions import get_random_string, get_random_price
-
-
 def test_create_order_service(create_order):
     order = create_order.json
     assert create_order.status_code == 201

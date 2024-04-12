@@ -37,6 +37,16 @@ jobs:
           python manage.py db migrate
           python manage.py db upgrade
 
+      - name: Check Lint
+        run: |
+          source venv/bin/activate
+          ruff check *.py
+
+      - name: Check formatting
+        run: |
+          source venv/bin/activate
+          black --check ./app
+
       - name: Run tests with coverage
         run: |
           source venv/bin/activate

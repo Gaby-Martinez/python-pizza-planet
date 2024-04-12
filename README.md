@@ -40,7 +40,7 @@ python3 -m venv venv
 _For linux/MacOS users:_
 
 ```bash
-source venv/bin/activate 
+source venv/bin/activate
 ```
 
 _For windows users:_
@@ -63,12 +63,36 @@ python3 manage.py db migrate
 python3 manage.py db upgrade
 ```
 
+- To populate the database with fake data
+
+```bash
+make seed-db
+```
+
+or
+
+```bash
+@python -m app.common.scripts.seed_database
+```
+
+- To clean the database:
+
+```bash
+make clean-db
+```
+
+or
+
+```bash
+@python -m app.common.scripts.clean_database
+```
+
 - If you want to use the hot reload feature set FLASK_ENV before running the project:
 
 _For linux/MacOS users:_
 
 ```bash
-export FLASK_ENV=development 
+export FLASK_ENV=development
 ```
 
 _For windows users:_
@@ -111,4 +135,24 @@ ext install ritwickdey.LiveServer
 
 ```bash
 python3 manage.py test
+```
+
+or
+
+```bash
+make test
+```
+
+### Tools for the backend
+
+- Lint
+
+```bash
+make lint
+```
+
+- Format
+
+```bash
+make format
 ```

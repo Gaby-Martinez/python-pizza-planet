@@ -1,6 +1,4 @@
-import pytest
-
-from app.test.utils.functions import get_random_string, get_random_price
+from app.test.utils.functions import get_random_price, get_random_string
 
 
 def test_create_beverage_service(client, beverage_uri, beverage):
