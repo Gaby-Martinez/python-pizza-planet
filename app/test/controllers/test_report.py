@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
 
 from app.controllers.report import ReportController
 from app.repositories.reports.report_strategy import (

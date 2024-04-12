@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 
 from app.common.http_methods import GET, POST, PUT
 from app.services.base import BaseService

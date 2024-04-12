@@ -1,14 +1,15 @@
 import logging
+
+from app import flask_app
 from app.plugins import db
 from app.repositories.models import (
-    Order,
-    Ingredient,
-    Size,
-    OrderIngredient,
     Beverage,
+    Ingredient,
+    Order,
     OrderBeverage,
+    OrderIngredient,
+    Size,
 )
-from app import flask_app
 
 logging.basicConfig(level=logging.INFO)
 

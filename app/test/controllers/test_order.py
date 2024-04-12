@@ -33,9 +33,11 @@ def __create_sizes_ingredients_and_beverages(order_data: dict):
 
 
 def test_create(app, order_data: dict):
-    created_size, created_ingredients, created_beverages = (
-        __create_sizes_ingredients_and_beverages(order_data)
-    )
+    (
+        created_size,
+        created_ingredients,
+        created_beverages,
+    ) = __create_sizes_ingredients_and_beverages(order_data)
 
     order_data["ingredients"] = created_ingredients
     order_data["beverages"] = created_beverages
@@ -68,9 +70,11 @@ def test_create(app, order_data: dict):
 
 
 def test_calculate_order_price(app, order_data: dict):
-    created_size, created_ingredients, created_beverages = (
-        __create_sizes_ingredients_and_beverages(order_data)
-    )
+    (
+        created_size,
+        created_ingredients,
+        created_beverages,
+    ) = __create_sizes_ingredients_and_beverages(order_data)
     order_data["ingredients"] = created_ingredients
     order_data["beverages"] = created_beverages
     order_data["size"] = created_size
@@ -85,9 +89,11 @@ def test_calculate_order_price(app, order_data: dict):
 
 
 def test_get_by_id(app, order_data: dict):
-    created_size, created_ingredients, created_beverages = (
-        __create_sizes_ingredients_and_beverages(order_data)
-    )
+    (
+        created_size,
+        created_ingredients,
+        created_beverages,
+    ) = __create_sizes_ingredients_and_beverages(order_data)
     order_data["ingredients"] = created_ingredients
     order_data["beverages"] = created_beverages
     order_data["size"] = created_size
@@ -114,9 +120,11 @@ def test_get_by_id(app, order_data: dict):
 
 
 def test_get_all(app, order_data: dict):
-    created_size, created_ingredients, created_beverages = (
-        __create_sizes_ingredients_and_beverages(order_data)
-    )
+    (
+        created_size,
+        created_ingredients,
+        created_beverages,
+    ) = __create_sizes_ingredients_and_beverages(order_data)
     created_orders = []
     for _ in range(5):
         order_data["ingredients"] = created_ingredients
