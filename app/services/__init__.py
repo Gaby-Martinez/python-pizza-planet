@@ -1,3 +1,4 @@
+from .base import BaseService
 from .beverage import beverage
 from .index import index
 from .ingredient import ingredient
