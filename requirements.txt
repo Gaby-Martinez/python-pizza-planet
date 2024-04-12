@@ -35,3 +35,6 @@ SQLAlchemy==1.4.31
 toml==0.10.2
 Werkzeug==2.0.2
 zipp==3.7.0
+ruff==0.3.7
+black
+isort

@@ -1,6 +1,6 @@
 FLASK_ENV ?= development
 
-.PHONY: venv install db run test test-coverage
+.PHONY: venv install db run test test-coverage lint lint-fix format
 
 venv:
 	python -m venv venv
@@ -33,3 +33,17 @@ seed-db:
 
 clean-db:
 	@python -m app.common.scripts.clean_database
+
+lint:
+	. venv/bin/activate && \
+	ruff check *.py
+
+lint-fix:
+	. venv/bin/activate && \
+	ruff check --fix *.py
+
+format:
+	. venv/bin/activate && \
+	isort ./app
+	ruff check --fix-only ./app
+	black ./app
