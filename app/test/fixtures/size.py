@@ -25,6 +25,7 @@ def sizes():
 @pytest.fixture
 def create_size(client, size_uri) -> dict:
     response = client.post(size_uri, json=size_mock())
+    assert response.status_code == 201
     return response
 
 
@@ -34,4 +35,5 @@ def create_sizes(client, size_uri) -> list:
     for _ in range(10):
         new_size = client.post(size_uri, json=size_mock())
         sizes.append(new_size.json)
+        assert new_size.status_code == 201
     return sizes
