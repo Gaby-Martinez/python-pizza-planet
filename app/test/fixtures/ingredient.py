@@ -4,15 +4,12 @@ from ..utils.functions import get_random_price, get_random_string
 
 
 def ingredient_mock() -> dict:
-    return {
-        'name': get_random_string(),
-        'price': get_random_price(10, 20)
-    }
+    return {"name": get_random_string(), "price": get_random_price(10, 20)}
 
 
 @pytest.fixture
 def ingredient_uri():
-    return '/ingredient/'
+    return "/ingredient/"
 
 
 @pytest.fixture
@@ -28,6 +25,7 @@ def ingredients():
 @pytest.fixture
 def create_ingredient(client, ingredient_uri) -> dict:
     response = client.post(ingredient_uri, json=ingredient_mock())
+    assert response.status_code == 201
     return response
 
 
@@ -37,4 +35,5 @@ def create_ingredients(client, ingredient_uri) -> list:
     for _ in range(10):
         new_ingredient = client.post(ingredient_uri, json=ingredient_mock())
         ingredients.append(new_ingredient.json)
+        assert new_ingredient.status_code == 201
     return ingredients
